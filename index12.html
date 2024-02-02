@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Entry and Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="dataForm">
+        <label for="studentID">Student ID:</label>
+        <input type="text" id="studentID" name="studentID" required>
+
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" name="studentName" required>
+
+        <label for="studentCollege">Student College:</label>
+        <input type="text" id="studentCollege" name="studentCollege" required>
+
+        <label for="studentStatus">Student Status:</label>
+        <input type="text" id="studentStatus" name="studentStatus" required>
+
+        <label for="dsaScore">DSA Final Score:</label>
+        <input type="text" id="dsaScore" name="dsaScore" required>
+
+        <label for="webDScore">WebD Final Score:</label>
+        <input type="text" id="webDScore" name="webDScore" required>
+
+        <label for="reactScore">React Final Score:</label>
+        <input type="text" id="reactScore" name="reactScore" required>
+
+        <label for="interviewDate">Interview Date:</label>
+        <input type="date" id="interviewDate" name="interviewDate" required>
+
+        <label for="interviewCompany">Interview Company:</label>
+        <input type="text" id="interviewCompany" name="interviewCompany" required>
+
+        <label for="interviewResult">Interview Student Result:</label>
+        <input type="text" id="interviewResult" name="interviewResult" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <button id="downloadButton" style="margin-top: 0px;" onclick="downloadCSV()">Download CSV</button>
+
+    <script>
+        let studentData = [];
+
+        function submitForm() {
+            const studentID = document.getElementById("studentID").value;
+            const studentName = document.getElementById("studentName").value;
+            const studentCollege = document.getElementById("studentCollege").value;
+            const studentStatus = document.getElementById("studentStatus").value;
+            const dsaScore = document.getElementById("dsaScore").value;
+            const webDScore = document.getElementById("webDScore").value;
+            const reactScore = document.getElementById("reactScore").value;
+            const interviewDate = document.getElementById("interviewDate").value;
+            const interviewCompany = document.getElementById("interviewCompany").value;
+            const interviewResult = document.getElementById("interviewResult").value;
+
+            // Create an entry for the student
+            const entry = {
+                studentID,
+                studentName,
+                studentCollege,
+                studentStatus,
+                dsaScore,
+                webDScore,
+                reactScore,
+                interviewDate,
+                interviewCompany,
+                interviewResult
+            };
+
+            // Add the entry to the data array
+            studentData.push(entry);
+
+            // Clear form fields
+            document.getElementById("dataForm").reset();
+        }
+
+        function downloadCSV() {
+            const csvContent = "data:text/csv;charset=utf-8,"
+                + "Student ID,Student Name,Student College,Student Status,DSA Final Score,WebD Final Score,React Final Score,Interview Date,Interview Company,Interview Student Result\n"
+                + studentData.map(entry => Object.values(entry).join(',')).join('\n');
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "student_data.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+        
+    </script>
+
+</body>
+</html>
